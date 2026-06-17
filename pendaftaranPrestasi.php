@@ -3,20 +3,19 @@
 require_once 'Pendaftaran.php';
 
 class PendaftaranPrestasi extends Pendaftaran {
-    // Properti tambahan spesifik jalur Prestasi
+    private $pilihanProdi;
+    private $lokasiKampus;
     private $jenisPrestasi;
     private $tingkatPrestasi;
 
-    // Constructor
     public function __construct($data) {
         parent::__construct($data);
-        $this->pilihanProdi = $data['pilihan_prodi'] ?? null; // Jalur prestasi juga memiliki pilihan prodi & kampus
+        $this->pilihanProdi = $data['pilihan_prodi'] ?? null; 
         $this->lokasiKampus = $data['lokasi_kampus'] ?? null;
         $this->jenisPrestasi = $data['jenis_prestasi'] ?? null;
         $this->tingkatPrestasi = $data['tingkat_prestasi'] ?? null;
     }
 
-    // Metode Query Spesifik untuk mengambil semua data jalur Prestasi
     public static function getDaftarPrestasi($db) {
         $query = "SELECT * FROM tabel_pendaftaran WHERE jalur_pendaftaran = 'Prestasi'";
         $stmt = $db->prepare($query);
@@ -24,16 +23,17 @@ class PendaftaranPrestasi extends Pendaftaran {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Kewajiban implementasi abstract method dari Tahap 3 (Logika kosong / dasar dulu)
+    // 2. OVERRIDING: Mendapatkan potongan insentif sebesar Rp50.000
     public function hitungTotalBiaya() {
-        return $this->biayaPendaftaranDasar;
+        return $this->biayaPendaftaranDasar - 50000;
     }
 
     public function tampilkanInfoJalur() {
         return "Jalur Pendaftaran: Prestasi | Jenis: " . $this->jenisPrestasi . " | Tingkat: " . $this->tingkatPrestasi;
     }
 
-    // Getter untuk properti spesifik
+    public function getPilihanProdi() { return $this->pilihanProdi; }
+    public function getLokasiKampus() { return $this->lokasiKampus; }
     public function getJenisPrestasi() { return $this->jenisPrestasi; }
     public function getTingkatPrestasi() { return $this->tingkatPrestasi; }
 }
