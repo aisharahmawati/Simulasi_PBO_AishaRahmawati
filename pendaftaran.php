@@ -20,9 +20,9 @@ abstract class Pendaftaran {
         $this->jalur_pendaftaran = $data['jalur_pendaftaran'] ?? '';
     }
 
-    // Abstract Method - Wajib dibuat ulang secara spesifik di class anak
-    abstract public function hitungTotalBiaya();
-    abstract public function tampilkanKarakteristik();
+    // 4. Metode Abstrak (Tanpa Isi/Body): Wajib diimplementasikan di class anak
+    abstract public function hitungTotalBiaya(); 
+    abstract public function tampilkanInfoJalur(); 
 
     // Getter untuk mengakses properti yang dilindungi jika dibutuhkan di luar class
     public function getIdPendaftaran() { return $this->id_pendaftaran; }
