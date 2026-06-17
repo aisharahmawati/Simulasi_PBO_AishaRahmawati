@@ -1,0 +1,39 @@
+<?php
+// File: PendaftaranReguler.php
+require_once 'Pendaftaran.php';
+
+class PendaftaranReguler extends Pendaftaran {
+    // Properti tambahan spesifik jalur Reguler
+    private $pilihanProdi;
+    private $lokasiKampus;
+
+    // Constructor
+    public function __construct($data) {
+        // Memanggil constructor class induk (Pendaftaran)
+        parent::__construct($data);
+        // Memetakan properti spesifik anak
+        $this->pilihanProdi = $data['pilihan_prodi'] ?? null;
+        $this->lokasiKampus = $data['lokasi_kampus'] ?? null;
+    }
+
+    // Metode Query Spesifik untuk mengambil semua data jalur Reguler
+    public static function getDaftarReguler($db) {
+        $query = "SELECT * FROM tabel_pendaftaran WHERE jalur_pendaftaran = 'Reguler'";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Kewajiban implementasi abstract method dari Tahap 3 (Logika kosong / dasar dulu)
+    public function hitungTotalBiaya() {
+        return $this->biayaPendaftaranDasar;
+    }
+
+    public function tampilkanInfoJalur() {
+        return "Jalur Pendaftaran: Reguler | Program Studi: " . $this->pilihanProdi . " | Kampus: " . $this->lokasiKampus;
+    }
+
+    // Getter untuk properti spesifik
+    public function getPilihanProdi() { return $this->pilihanProdi; }
+    public function getLokasiKampus() { return $this->lokasiKampus; }
+}
